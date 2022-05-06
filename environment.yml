@@ -1,0 +1,13 @@
+name: hackathon-phoenix
+channels:
+  - conda-forge
+  - pytorch
+  - defaults
+dependencies:
+  - python=3.9
+  - pytorch
+  - pandas
+  - numpy
+  - swifter
+  - matplotlib
+  - optuna
