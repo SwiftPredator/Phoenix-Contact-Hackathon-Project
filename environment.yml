@@ -11,3 +11,5 @@ dependencies:
   - swifter
   - matplotlib
   - optuna
+  - pip:
+      - pandas_profiling
