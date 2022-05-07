@@ -7,6 +7,7 @@ from meteostat import Daily, Hourly, Point
 from pandas.api.types import is_string_dtype
 from sklearn.experimental import enable_iterative_imputer
 from sklearn.impute import IterativeImputer
+from sklearn.neighbors import KNeighborsRegressor
 from sklearn.preprocessing import OrdinalEncoder, StandardScaler
 
 
@@ -37,32 +38,30 @@ def merge_data(df: pd.DataFrame):
     return res
 
 
-def preprocess_df(
-    df: pd.DataFrame, method: str = "zero", seed: int = 69
-) -> pd.DataFrame:
+def preprocess_df(df: pd.DataFrame, seed: int = 69) -> pd.DataFrame:
     df = convert_df_to_numeric(df)
 
+    df["coco"] = df["coco"].fillna(method="ffill")
+    df["coco"] = df["coco"].fillna(method="bfill")
+
     # impute missing numeric values
-    if method == "zero":
-        df.fillna(0.0, inplace=True)
-    else:
-        imp = IterativeImputer(
-            missing_values=np.nan,
-            add_indicator=True,
-            random_state=seed,
-            n_nearest_features=5,
-            sample_posterior=True,
-        )
-        df = imp.fit_transform(df)
+    imp = IterativeImputer(
+        estimator=KNeighborsRegressor(n_neighbors=15),
+        missing_values=np.nan,
+        random_state=seed,
+        n_nearest_features=4,
+    )
 
     # encode categorical values
     enc = OrdinalEncoder()
     enc.fit(df[["Room", "BucketAttendees"]])
     df[["Room", "BucketAttendees"]] = enc.transform(df[["Room", "BucketAttendees"]])
+    imputed = imp.fit_transform(df)
+    df = pd.DataFrame(imputed, columns=df.columns, index=df.index)
 
     # standartization values
-    # scaler = StandardScaler()
-    # df.iloc[:, 3:18] = scaler.fit_transform(df.iloc[:, 3:18])
+    scaler = StandardScaler()
+    df.iloc[:, 2:-1] = scaler.fit_transform(df.iloc[:, 2:-1])
 
     return df
 
