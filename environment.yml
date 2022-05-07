@@ -12,7 +12,7 @@ dependencies:
   - matplotlib
   - optuna
   - scikit-learn
-  - tensorflow-gpu
+  - tensorflow
   - pip
   - pip:
       - pandas_profiling
@@ -20,3 +20,5 @@ dependencies:
       - xgboost
       - lightgbm
       - meteostat
+      - pytorch-forecasting
+      - pytorch-lightning
