@@ -12,10 +12,11 @@ dependencies:
   - matplotlib
   - optuna
   - scikit-learn
+  - tensorflow-gpu
   - pip
   - pip:
       - pandas_profiling
       - autots
       - xgboost
       - lightgbm
-      - tensorflow
+      - meteostat
