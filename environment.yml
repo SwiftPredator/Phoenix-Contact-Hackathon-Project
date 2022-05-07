@@ -11,5 +11,11 @@ dependencies:
   - swifter
   - matplotlib
   - optuna
+  - scikit-learn
+  - pip
   - pip:
       - pandas_profiling
+      - autots
+      - xgboost
+      - lightgbm
+      - tensorflow

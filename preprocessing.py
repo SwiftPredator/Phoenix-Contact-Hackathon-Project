@@ -18,7 +18,7 @@ def merge_data(df: pd.DataFrame):
     start, end = datetime.strptime(start, "%d.%m.%Y %H:%M"), datetime.strptime(
         end, "%d.%m.%Y %H:%M"
     )
-    phoenix = Point(51.98589, 9.25246, 70)
+    phoenix = Point(51.98589, 9.25246, 111)
     # Get daily data for 2018
     data = Hourly(phoenix, start, end + timedelta(weeks=4))
     tdf = data.fetch()
